@@ -43,6 +43,8 @@ class ProviderRegistry(object):
                 except ImportError:
                     pass
                 else:
+                    # Merges provider_classes from the `provider.py` module and
+                    # settings.<provider>.provider_class
                     provider_settings = getattr(settings, "SOCIALACCOUNT_PROVIDERS", {})
                     for cls in getattr(provider_module, "provider_classes", []):
                         provider_class = provider_settings.get(cls.id, {}).get(

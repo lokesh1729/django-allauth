@@ -177,11 +177,21 @@ class DefaultSocialAccountAdapter(object):
         from allauth.socialaccount.providers import registry
 
         ret = []
+        # list of [allauth.socialaccount.providers.base.provider.Provider]
         provider_classes = registry.get_class_list()
+        # returns list of SocialApp objects
         apps = self.list_apps(request)
+        # provider to app mapping
+        # {'provider1': [SocialApp(provider='provider1')],
+        #  'provider2': [SocialApp(provider='provider2')],
+        #  'provider3': [SocialApp(provider='provider3')]}
         apps_map = {}
         for app in apps:
             apps_map.setdefault(app.provider, []).append(app)
+        # Create an object for provider class by encapsulating
+        # request and SocialApp. For that we need to fetch the
+        # SocialApp from apps_map and pass it. Some providers
+        # like OpenIDProvider do not use apps.
         for provider_class in provider_classes:
             provider_apps = apps_map.get(provider_class.id, [])
             if not provider_apps:
@@ -200,6 +210,7 @@ class DefaultSocialAccountAdapter(object):
         from allauth.socialaccount.providers import registry
 
         provider_class = registry.get_class(provider)
+        # what's happening here? what is uses_apps?
         if provider_class is None or provider_class.uses_apps:
             app = self.get_app(request, provider=provider)
             if not provider_class:
@@ -225,6 +236,9 @@ class DefaultSocialAccountAdapter(object):
         from allauth.socialaccount.models import SocialApp
 
         # Map provider to the list of apps.
+        # {
+        # "provider": SocialApp object
+        # }
         provider_to_apps = {}
 
         # First, populate it with the DB backed apps.

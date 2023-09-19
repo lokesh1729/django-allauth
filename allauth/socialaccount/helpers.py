@@ -167,6 +167,7 @@ def _add_social_account(request, sociallogin):
         # New account, let's connect
         action = "added"
         sociallogin.connect(request, request.user)
+    # where is the authentication set?
     assert request.user.is_authenticated
     default_next = get_adapter().get_connect_redirect_url(request, sociallogin.account)
     next_url = sociallogin.get_redirect_url(request) or default_next

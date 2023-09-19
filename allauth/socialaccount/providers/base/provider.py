@@ -85,6 +85,7 @@ class Provider(object):
         sociallogin = SocialLogin(
             account=socialaccount, email_addresses=email_addresses
         )
+        # just setting an empty user object? how do we know existing or new?
         user = sociallogin.user = adapter.new_user(request, sociallogin)
         user.set_unusable_password()
         adapter.populate_user(request, sociallogin, common_fields)
