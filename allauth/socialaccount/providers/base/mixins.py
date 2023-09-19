@@ -7,6 +7,7 @@ from allauth.socialaccount import app_settings
 class OAuthLoginMixin:
     def dispatch(self, request, *args, **kwargs):
         provider = self.adapter.get_provider()
+        # Default LOGIN_ON_GET value is False and request method is also GET. What will happen?
         if (not app_settings.LOGIN_ON_GET) and request.method == "GET":
             # What will happen when the POST method is called from the web?
             return render(
