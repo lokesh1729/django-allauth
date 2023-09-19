@@ -15,6 +15,7 @@
 {% endif %}
 <li>
   <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}"
+        {# From where does scope, auth_params are populating from ? #}
      href="{% provider_login_url provider process=process scope=scope auth_params=auth_params %}">{{provider.name}}</a>
 </li>
 {% endfor %}

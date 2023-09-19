@@ -8,6 +8,7 @@ class OAuthLoginMixin:
     def dispatch(self, request, *args, **kwargs):
         provider = self.adapter.get_provider()
         if (not app_settings.LOGIN_ON_GET) and request.method == "GET":
+            # What will happen when the POST method is called from the web?
             return render(
                 request,
                 "socialaccount/login." + account_app_settings.TEMPLATE_EXTENSION,
